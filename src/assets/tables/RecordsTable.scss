@@ -1,0 +1,37 @@
+.RecordTable{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    table{
+        border: solid 1px #000;
+        border-collapse: collapse;
+        thead{
+            background-color: rgb(73, 73, 73);
+            color: #fff;  
+        }
+        tr:nth-child(even){
+            background-color: rgb(73, 73, 73, 0.333);
+        }
+        td{
+            border: solid 1px #000;
+            padding: 10px;
+            text-align: center;
+            input{
+                cursor: pointer;
+            }
+        }
+    }
+    button{
+        background-color: rgb(73, 73, 73);
+        padding: 10px 15px;
+        color: #fff;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        width: max-content;
+    }
+    
+
+}
