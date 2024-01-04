@@ -1,6 +1,6 @@
 import React, { Component} from "react";
 import { createPortal } from "react-dom";
-import './PortalModalRoot.scss'
+import '.././../assets/portals/PortalModalRoot.scss'
 
 export class PortalModalRoot extends Component{
     el = document.createElement('div')

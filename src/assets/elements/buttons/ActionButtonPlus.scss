@@ -1,0 +1,24 @@
+.ActionButtonPlus{
+    cursor: pointer;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.line{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    input{
+        padding: 10px 5px;
+    }
+    button{
+        background-color: rgb(73, 73, 73);
+        padding: 10px 15px;
+        color: #fff;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+    }
+}
