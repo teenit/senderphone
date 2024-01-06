@@ -5,18 +5,13 @@ $data = json_decode(file_get_contents('php://input'));
 
 $pib = $data->pib;
 $phone = $data->phone;
-$datas = json_encode($data->datas);
-$date_record = $data->date_record;
-$time_record = $data->time_record;
-// $sent_sms = $data->sent_sms;
-$will_send_sms = $data->will_send_sms;
-$will_send_sms_time = $data->$will_send_sms_time;
+$datas = json_encode($data->data, JSON_UNESCAPED_UNICODE);
 
-
-$msql = "INSERT INTO records (pib, phone, data, date_record, time_record, will_send_sms, will_send_sms_time ) VALUES ('$pib','$phone','$datas','$date_record','$time_record','$will_send_sms','$will_send_sms_time')";
-
-if (mysqli_query($conn, $msql)) {
-    echo 'good';
-} else {
-    echo 'fail';
+$msql = "INSERT INTO records (pib, phone, data) VALUES ('$pib','$phone','$datas')";
+if (isset($data)) {
+    if (mysqli_query($conn, $msql)) {
+        echo 'good';
+    } else {
+        echo 'fail';
+    }
 }

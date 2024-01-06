@@ -13,7 +13,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
         send_sms: false,
         will_send_sms: "",
         will_send_sms_time: "",
-        datas: {
+        data: {
             likar: "test"
         },
     })
@@ -27,7 +27,21 @@ const ActionButtonPlus = ({ successHandler, }) => {
         will_send_sms_time: "",
     })
     const send = () => {
-        apiResponse(state, 'create-record.php').then((data) => { console.log(data) })
+        const data = {
+            pib: state.pib,
+            phone: state.phone,
+            data: {
+                date_record: state.date_record,
+                time_record: state.time_record,
+                will_send_sms: state.will_send_sms,
+                will_send_sms_time: state.will_send_sms_time,
+                likar: "test"
+            }
+        }
+        apiResponse(data, 'create-record.php').then((data) => { console.log(data) })
+    }
+    const getRecords = () => {
+        apiResponse({}, 'get-all-records.php').then((data) => { console.log(data) })
     }
     const [message, setMessage] = useState("")
     const handleMessage = (e) => {
@@ -35,7 +49,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
         mas.map((item, index) => {
             switch (item) {
                 case 'likar':
-                    mas[index] = state.datas.likar
+                    mas[index] = state.data.likar
                     break;
 
                 case 'date':
@@ -112,8 +126,8 @@ const ActionButtonPlus = ({ successHandler, }) => {
                             </div>
                             <div className="line">
                                 <label htmlFor="likar">Запис до лікаря</label>
-                                <input id="likar" type="text" value={state.datas.likar} onChange={(e) => {
-                                    setState({ ...state, datas: { ...state.datas, likar: e.target.value } });
+                                <input id="likar" type="text" value={state.data.likar} onChange={(e) => {
+                                    setState({ ...state, datas: { ...state.data, likar: e.target.value } });
                                     if (e.target.value.length < 1) {
                                         setError({ ...error, likar: true })
                                     } else {
@@ -163,6 +177,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                     }
                                 }} className="successButton">Створити запис</button>
                                 <button onClick={() => setState({ ...state, modal: false })} className="cancelButton">Відмінити</button>
+                                <button onClick={getRecords} className="cancelButton">Get Records</button>
                             </div>
                         </div>
                     </PortalModalRoot>
