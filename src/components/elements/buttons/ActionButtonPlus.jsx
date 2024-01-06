@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PortalModalRoot from "../../portals/PortalModalRoot";
 import { apiResponse } from "../../../function/requests";
 import '../../../assets/elements/buttons/ActionButtonPlus.scss'
@@ -19,6 +19,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
             patronymic:"",
             likar: ""
         },
+        message:"Вітаю! name father-name ви записані до likar на date o time !"
     })
     const [error, setError] = useState({
         name: true,
@@ -52,7 +53,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
                         date:state.will_send_sms,
                         time:state.will_send_sms_time,
                         status:"",
-                        text:message
+                        text:state.message
                     }
                 ]
             }
@@ -62,9 +63,12 @@ const ActionButtonPlus = ({ successHandler, }) => {
     const getRecords = () => {
         apiResponse({}, 'get-all-records.php').then((data) => { console.log(data) })
     }
-    const [message, setMessage] = useState("")
-    const handleMessage = (e) => {
-        let mas = e.target.value.split(" ")
+    const [message, setMessage] = useState("Вітаю! name father-name ви записані до likar на date o time !")
+    useEffect(()=>{
+        handleMessage(message)
+    },[])
+    const handleMessage = (mes) => {
+        let mas = mes.split(" ")
         mas.map((item, index) => {
             switch (item) {
                 case 'likar':
@@ -78,13 +82,22 @@ const ActionButtonPlus = ({ successHandler, }) => {
                 case 'time':
                     mas[index] = state.time_record
                     break;
+                case 'name':
+                    mas[index] = state.data.name
+                    break;
+                case 'surname':
+                    mas[index] = state.data.surname
+                    break;
+                case 'father-name':
+                    mas[index] = state.data.patronymic
+                    break;
 
                 default:
                     break;
             }
 
         })
-        setMessage(mas.join(" "))
+       return mas.join(" ")
     }
     return (
         <>
@@ -180,7 +193,14 @@ const ActionButtonPlus = ({ successHandler, }) => {
                             </div>
                             <div className="line">
                                 <label htmlFor="send_sms"> <span>Відправити СМС</span>
-                                    <input id="send_sms" type="checkbox" checked={state.send_sms} onChange={(e) => setState({ ...state, send_sms: e.target.checked })} />
+                                    <input id="send_sms" type="checkbox" checked={state.send_sms} onChange={(e) => {
+                                        setState({ 
+                                            ...state, 
+                                            send_sms: e.target.checked,
+                                            message: handleMessage("Вітаю! name father-name ви записані до likar на date o time !")
+                                            })
+                                        
+                                        }} />
                                 </label>
                                 {
                                     state.send_sms && (
@@ -201,10 +221,11 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                                     setError({ ...error, will_send_sms_time: false })
                                                 }
                                             }} />
-                                            <textarea name="" id="" cols="30" rows="10" onChange={(e) => {
-                                                handleMessage(e)
+                                            <textarea value={state.message} name="" id="" cols="30" rows="10" onChange={(e) => {
+                                                
+                                                setState({...state, message:handleMessage(e.target.value)})
                                             }}></textarea>
-                                            <p>Приклад: {message}</p>
+                                            
                                         </>
                                     )
                                 }
