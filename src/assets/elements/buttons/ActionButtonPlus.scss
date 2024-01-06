@@ -10,6 +10,9 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    .error{
+        color: red;
+    }
     input{
         padding: 10px 5px;
     }

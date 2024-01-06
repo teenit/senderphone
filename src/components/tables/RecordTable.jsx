@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../../assets/tables/RecordsTable.scss';
 import PortalModalRoot from '../portals/PortalModalRoot';
 import axios from 'axios';
+import { apiResponse } from '../../function/requests';
 const RecordTable = () => {
   const initialData = [
     {
@@ -31,6 +32,7 @@ const RecordTable = () => {
       const responceData = resp.data;
       console.log(responceData)
     });
+
   },[]);
 
   const [data, setData] = useState([...initialData]);
@@ -65,6 +67,7 @@ const handleMessage = (e)=>{
   })
   setMessage(mas.join(" "))
 }
+
 const handleSendingMessage = ()=>{
   setModal(false)
   setMessage("")
@@ -109,7 +112,11 @@ const handleSendingMessage = ()=>{
         </tbody>
       </table>
       <button onClick={() => {
-        setModal(true)
+          let activeUsers = data.filter(item=>item.isCheked==true)
+          if(activeUsers.length>0){
+            setModal(true)
+          }
+        
       }}>Відправити повідомлення</button>
       {modal &&
         <PortalModalRoot modalClass="RecordTable">
