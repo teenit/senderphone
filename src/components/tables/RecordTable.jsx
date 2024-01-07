@@ -4,38 +4,11 @@ import PortalModalRoot from '../portals/PortalModalRoot';
 import axios from 'axios';
 import { apiResponse } from '../../function/requests';
 const RecordTable = () => {
-  const initialData = [
-    {
-      pib: "full name",
-      phone: "380989994455",
-      doctor: "doctor name",
-      date: "15 July",
-      time: "12:00",
-      isCheked: false,
-      isStartMessageSent: false,
-      isReminderSent: false,
-    },
-    {
-      pib: "full name 2",
-      phone: "380989994455",
-      doctor: "doctor name 2",
-      date: "15 August",
-      time: "17:00",
-      isCheked: false,
-      isStartMessageSent: false,
-      isReminderSent: false,
-    },
-  ];
   useEffect(() => {
-    const url = 'https://sender.itclub.in.ua/admin/get-active-list.php';
-    axios.post(url).then((resp) => {
-      const responceData = resp.data;
-      console.log(responceData)
-    });
-
+    getRecords();
   },[]);
 
-  const [data, setData] = useState([...initialData]);
+  const [data, setData] = useState([]);
   const [modal, setModal] = useState(false)
   const [message,setMessage] = useState("")
   const handleCheckboxChange = (index) => {
@@ -49,7 +22,7 @@ const handleMessage = (e)=>{
   mas.map((item,index)=>{
     switch (item) {
       case 'likar':
-        mas[index] = activeUsers[0].doctor
+        mas[index] = activeUsers[0].likar
         break;
     
       case 'date':
@@ -67,7 +40,9 @@ const handleMessage = (e)=>{
   })
   setMessage(mas.join(" "))
 }
-
+const getRecords = () => {
+  apiResponse({}, 'get-all-records.php').then((data) => { setData([...data]) })
+}
 const handleSendingMessage = ()=>{
   setModal(false)
   setMessage("")
@@ -83,29 +58,34 @@ const handleSendingMessage = ()=>{
       <table>
         <thead>
           <tr>
+            <td>ID</td>
             <td>ПІБ</td>
             <td>Номер телефону</td>
             <td>Лікар</td>
             <td>Дата запису</td>
             <td>Час запису</td>
+            <td>СМС відправлено</td>
             <td>Вибрати отримувачів</td>
-            <td>Статус повідомлення</td>
-            <td>Статус повідомлення за день до візіиту</td>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.pib}</td>
+          {data.length > 0 && data.map((item, index) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{`${item.surname} ${item.name} ${item.patronymic}`}</td>
               <td>{item.phone}</td>
-              <td>{item.doctor}</td>
-              <td>{item.date}</td>
-              <td>{item.time}</td>
+              <td>{item.likar}</td>
+              <td>{item.date_record}</td>
+              <td>{item.time_record}</td>
+              
+              <td>{item.sms.map((sms, i)=>{
+              return (
+                <span key={item.id + "l" + i} title={sms.text}>{`${sms.date} ${sms.time}`}</span>
+              )
+            })}</td>
               <td>
                 <input type="checkbox" value={item.isCheked} onClick={() => handleCheckboxChange(index)} />
               </td>
-              <td>{item.isStartMessageSent?"Відправлено":"Не відправлено"}</td>
-              <td>{item.isReminderSent?"Відправлено":"Не відправлено"}</td>
 
             </tr>
           ))}
