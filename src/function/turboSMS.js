@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiResponse } from "./requests";
 
 const AUTH_TOKEN = "c2f551454acfd19d81444f4558db869fdb6ba682";
 const answer = {
@@ -54,23 +55,25 @@ export async function sendMulti(obj){
              }
         }
       }
-return "";
+// return "";
    return await axios({
          url: 'https://api.turbosms.ua/message/sendmulti.json?token=' + AUTH_TOKEN,
          method: "POST",
          header: {'application/x-www-form-urlencoded': 'application/json;charset=utf-8'},
-         data: sms,
+         data: obj,
          onUploadProgress: (event) => {
              console.log(event)
          } 
      })
      .then((data)=>{
          console.log("Received data: ", data);
+        //  apiResponse({}, 'create-message.php').then((data) => { return {data}})
          return (data.data)
      })
      .catch((error)=>{
          throw error;
      })
+
  }
  export async function getStatus(obj){
 
@@ -92,7 +95,8 @@ return "";
      })
      .then((data)=>{
          console.log("Received data: ", data);
-         return (data.data)
+          (data.data["380932511624"]["response_result"][0]["phone"])
+          return apiResponse({ phone }, 'send-message.php')
      })
      .catch((error)=>{
          throw error;

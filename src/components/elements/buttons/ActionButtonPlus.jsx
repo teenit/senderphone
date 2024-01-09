@@ -15,21 +15,19 @@ const ActionButtonPlus = ({ successHandler, }) => {
         will_send_sms: "",
         will_send_sms_time: "",
         data: {
-            surname:"",
-            name:"",
-            patronymic:"",
+            surname: "",
+            name: "",
+            patronymic: "",
             likar: ""
         },
-        message:"Вітаю! name father-name ви записані до likar на date o time !"
+        message: "Вітаю! name father-name ви записані до likar на date o time !"
     })
     const [error, setError] = useState({
         name: true,
         surname: true,
-        patronymic: true,
         phone: true,
         date_record: true,
         time_record: true,
-        likar: true,
         will_send_sms: false,
         will_send_sms_time: false,
     })
@@ -40,34 +38,32 @@ const ActionButtonPlus = ({ successHandler, }) => {
             date_record: state.date_record,
             time_record: state.time_record,
             data: {
-                name:state.data.name,
-                surname:state.data.surname,
-                patronymic:state.data.patronymic,
-                phone:state.phone,
+                name: state.data.name,
+                surname: state.data.surname,
+                patronymic: state.data.patronymic,
+                phone: state.phone,
                 date_record: state.date_record,
                 time_record: state.time_record,
                 will_send_sms: state.will_send_sms,
                 will_send_sms_time: state.will_send_sms_time,
                 likar: state.data.likar,
-                sms:[
+                sms: [
                     {
-                        date:state.will_send_sms,
-                        time:state.will_send_sms_time,
-                        status:"",
-                        text:state.message
+                        date: state.will_send_sms,
+                        time: state.will_send_sms_time,
+                        status: "",
+                        text: state.message
                     }
                 ]
             }
         }
         apiResponse(data, 'create-record.php').then((data) => { console.log(data) })
     }
-    const getRecords = () => {
-        apiResponse({}, 'get-all-records.php').then((data) => { console.log(data) })
-    }
+
     const [message, setMessage] = useState("Вітаю! name father-name ви записані до likar на date o time !")
-    useEffect(()=>{
+    useEffect(() => {
         handleMessage(message)
-    },[])
+    }, [])
     const handleMessage = (mes) => {
         let mas = mes.split(" ")
         mas.map((item, index) => {
@@ -98,7 +94,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
             }
 
         })
-       return mas.join(" ")
+        return mas.join(" ")
     }
     return (
         <>
@@ -113,9 +109,9 @@ const ActionButtonPlus = ({ successHandler, }) => {
                     <PortalModalRoot modalClass="ActionButtonPlusModal">
                         <div className="form">
                             <div className="line">
-                                <label htmlFor="name" className={error.name && state.data.name!==""?"error":{}}>Ім'я клієнта</label>
+                                <label htmlFor="name" className={error.name && state.data.name !== "" ? "error" : {}}>Ім'я клієнта</label>
                                 <input id="name" type="text" value={state.data.name} onChange={(e) => {
-                                    setState({ ...state, data: {...state.data, name:e.target.value} });
+                                    setState({ ...state, data: { ...state.data, name: e.target.value } });
                                     if (e.target.value.length < 1) {
                                         setError({ ...error, name: true })
                                     } else {
@@ -125,9 +121,9 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                 />
                             </div>
                             <div className="line">
-                                <label htmlFor="surname" className={error.surname && state.data.surname!==""?"error":{}}>Прізвище клієнта</label>
+                                <label htmlFor="surname" className={error.surname && state.data.surname !== "" ? "error" : {}}>Прізвище клієнта</label>
                                 <input id="surname" type="text" value={state.data.surname} onChange={(e) => {
-                                    setState({ ...state, data: {...state.data, surname:e.target.value} });
+                                    setState({ ...state, data: { ...state.data, surname: e.target.value } });
                                     if (e.target.value.length < 1) {
                                         setError({ ...error, surname: true })
                                     } else {
@@ -137,19 +133,14 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                 />
                             </div>
                             <div className="line">
-                                <label htmlFor="patronymic" className={error.patronymic && state.data.patronymic!==""?"error":{}}>По батькові клієнта</label>
+                                <label htmlFor="patronymic">По батькові клієнта</label>
                                 <input id="patronymic" type="text" value={state.data.patronymic} onChange={(e) => {
-                                    setState({ ...state, data: {...state.data, patronymic:e.target.value} });
-                                    if (e.target.value.length < 1) {
-                                        setError({ ...error, patronymic: true })
-                                    } else {
-                                        setError({ ...error, patronymic: false })
-                                    }
+                                    setState({ ...state, data: { ...state.data, patronymic: e.target.value } });
                                 }}
                                 />
                             </div>
                             <div className="line">
-                                <label htmlFor="phone" className={error.phone && state.phone!==""?"error":{}}>Номер телефону у форматі 380991117788</label>
+                                <label htmlFor="phone" className={error.phone && state.phone !== "" ? "error" : {}}>Номер телефону у форматі 380991117788</label>
                                 <input id="phone" type="number" value={state.phone} onChange={(e) => {
                                     setState({ ...state, phone: e.target.value });
                                     if (e.target.value.length !== 12) {
@@ -160,7 +151,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                 }} />
                             </div>
                             <div className="line">
-                                <label htmlFor="date_record" className={error.date_record && state.date_record!==""?"error":{}}>Дата запису</label>
+                                <label htmlFor="date_record" className={error.date_record && state.date_record !== "" ? "error" : {}}>Дата запису</label>
                                 <input id="date_record" type="date" value={state.date_record} onChange={(e) => {
                                     setState({ ...state, date_record: e.target.value });
                                     if (e.target.value.length < 1) {
@@ -171,7 +162,7 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                 }} />
                             </div>
                             <div className="line">
-                                <label htmlFor="time_record" className={error.time_record && state.time_record!==""?"error":{}}>Час запису</label>
+                                <label htmlFor="time_record" className={error.time_record && state.time_record !== "" ? "error" : {}}>Час запису</label>
                                 <input id="time_record" type="time" value={state.time_record} onChange={(e) => {
                                     setState({ ...state, time_record: e.target.value });
                                     if (e.target.value.length < 1) {
@@ -182,40 +173,36 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                 }} />
                             </div>
                             <div className="line">
-                                <label htmlFor="likar" className={error.likar && state.data.likar!==""?"error":{}}>Запис до лікаря</label>
+                                <label htmlFor="likar">Запис до лікаря</label>
                                 <input id="likar" type="text" value={state.data.likar} onChange={(e) => {
                                     setState({ ...state, data: { ...state.data, likar: e.target.value } });
-                                    if (e.target.value.length < 1) {
-                                        setError({ ...error, likar: true })
-                                    } else {
-                                        setError({ ...error, likar: false })
-                                    }
+
                                 }} />
                             </div>
                             <div className="line">
                                 <label htmlFor="send_sms"> <span>Відправити СМС</span>
                                     <input id="send_sms" type="checkbox" checked={state.send_sms} onChange={(e) => {
-                                        setState({ 
-                                            ...state, 
+                                        setState({
+                                            ...state,
                                             send_sms: e.target.checked,
                                             message: handleMessage("Вітаю! name father-name ви записані до likar на date o time !")
-                                            })
-                                        
-                                        }} />
+                                        })
+
+                                    }} />
                                 </label>
                                 {
                                     state.send_sms && (
                                         <>
-                                            <input type="date" className={ state.send_sms && error.will_send_sms && state.will_send_sms!==""?"error":{}} checked={state.will_send_sms} onChange={(e) => {
-                                                setState({ ...state, will_send_sms: e.target.value  });
+                                            <input type="date" className={state.send_sms && error.will_send_sms && state.will_send_sms !== "" ? "error" : {}} checked={state.will_send_sms} onChange={(e) => {
+                                                setState({ ...state, will_send_sms: e.target.value });
                                                 if (e.target.value.length < 1 && state.send_sms) {
                                                     setError({ ...error, will_send_sms: true })
                                                 } else {
                                                     setError({ ...error, will_send_sms: false })
                                                 }
                                             }} />
-                                            <input type="time" className={ state.send_sms && error.will_send_sms_time && state.will_send_sms_time!==""?"error":{}} checked={state.will_send_sms_time} onChange={(e) => {
-                                                setState({ ...state, will_send_sms_time: e.target.value  });
+                                            <input type="time" className={state.send_sms && error.will_send_sms_time && state.will_send_sms_time !== "" ? "error" : {}} checked={state.will_send_sms_time} onChange={(e) => {
+                                                setState({ ...state, will_send_sms_time: e.target.value });
                                                 if (e.target.value.length < 1 && state.send_sms) {
                                                     setError({ ...error, will_send_sms_time: true })
                                                 } else {
@@ -223,10 +210,10 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                                 }
                                             }} />
                                             <textarea value={state.message} name="" id="" cols="30" rows="10" onChange={(e) => {
-                                                
-                                                setState({...state, message:handleMessage(e.target.value)})
+
+                                                setState({ ...state, message: handleMessage(e.target.value) })
                                             }}></textarea>
-                                            
+
                                         </>
                                     )
                                 }
@@ -237,12 +224,28 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                     if (Object.values(error).some(item => item == true)) {
                                         console.log(error);
                                     } else {
-                                        send()
+                                        if (state.send_sms) {
+                                            send()
+                                            let obj = {};
+                                                if (!obj[state.phone]) {
+                                                    obj[state.phone] = {};
+                                                }
+                                                obj[state.phone]["recipients"] = state.phone;
+                                                obj[state.phone]["start_time"] = `${state.will_send_sms} ${state.will_send_sms_time}`
+                                                obj[state.phone]["sms"] = {
+                                                    "sender": "IT Club",
+                                                    "text": state.message
+                                                };
+                                            sendMulti(obj)
+                                        } else {
+                                            send()
+                                        }
+
                                     }
                                 }} className="successButton">Створити запис</button>
                                 <button onClick={() => setState({ ...state, modal: false })} className="cancelButton">Відмінити</button>
-                                <button onClick={()=>sendMulti("1")} className="cancelButton">SEND SMS</button>
-                                <button onClick={()=>getStatus("1")} className="cancelButton">GET STATUS</button>
+                                <button onClick={() => sendMulti("1")} className="cancelButton">SEND SMS</button>
+                                <button onClick={() => getStatus("1")} className="cancelButton">GET STATUS</button>
                             </div>
                         </div>
                     </PortalModalRoot>
