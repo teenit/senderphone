@@ -54,7 +54,7 @@ export async function sendMulti(obj){
              }
         }
       }
-
+return "";
    return await axios({
          url: 'https://api.turbosms.ua/message/sendmulti.json?token=' + AUTH_TOKEN,
          method: "POST",
