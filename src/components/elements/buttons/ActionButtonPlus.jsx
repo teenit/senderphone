@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PortalModalRoot from "../../portals/PortalModalRoot";
 import { apiResponse } from "../../../function/requests";
 import '../../../assets/elements/buttons/ActionButtonPlus.scss'
+import { getStatus, sendMulti } from "../../../function/turboSMS";
 
 const ActionButtonPlus = ({ successHandler, }) => {
     const [state, setState] = useState({
@@ -240,7 +241,8 @@ const ActionButtonPlus = ({ successHandler, }) => {
                                     }
                                 }} className="successButton">Створити запис</button>
                                 <button onClick={() => setState({ ...state, modal: false })} className="cancelButton">Відмінити</button>
-                                <button onClick={getRecords} className="cancelButton">Get Records</button>
+                                <button onClick={()=>sendMulti("1")} className="cancelButton">SEND SMS</button>
+                                <button onClick={()=>getStatus("1")} className="cancelButton">GET STATUS</button>
                             </div>
                         </div>
                     </PortalModalRoot>
